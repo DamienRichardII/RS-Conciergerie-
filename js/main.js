@@ -37,6 +37,24 @@
     items.forEach(function (el) { el.classList.add('in'); });
   }
 
+  var tt = document.getElementById('themeToggle');
+  function applyTheme(dark) {
+    var root = document.documentElement;
+    if (dark) root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+    if (tt) {
+      tt.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      tt.setAttribute('aria-label', dark ? 'Activer le mode jour' : 'Activer le mode nuit');
+    }
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', dark ? '#0a1f33' : '#ffffff');
+  }
+  applyTheme(document.documentElement.getAttribute('data-theme') === 'dark');
+  if (tt) tt.addEventListener('click', function () {
+    var dark = document.documentElement.getAttribute('data-theme') !== 'dark';
+    applyTheme(dark);
+    try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+  });
+
   var y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 

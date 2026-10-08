@@ -60,30 +60,60 @@
 
   var form = document.getElementById('contactForm');
   if (form) {
+    var cfg = window.RS_SUPABASE;
+    var submitBtn = form.querySelector('button[type="submit"]');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var st = document.getElementById('status');
       var f = new FormData(form);
+      if (f.get('website')) { return; } // anti-spam (champ piège)
       var nom = (f.get('nom') || '').trim();
       var email = (f.get('email') || '').trim();
-      if (!nom || !/^\S+@\S+\.\S+$/.test(email)) {
+      if (nom.length < 2 || !/^\S+@\S+\.\S+$/.test(email)) {
         st.textContent = 'Merci de renseigner votre nom et un e-mail valide.';
         return;
       }
-      var body = [
-        'Nom : ' + nom,
-        'E-mail : ' + email,
-        'Téléphone : ' + (f.get('tel') || '-'),
-        'Besoin : ' + f.get('besoin'),
-        'Ville du logement : ' + (f.get('ville') || '-'),
-        '',
-        (f.get('message') || '')
-      ].join('\n');
-      var url = 'mailto:contact@rsconciergerie.fr?subject=' +
-        encodeURIComponent('Demande via le site — ' + f.get('besoin')) +
-        '&body=' + encodeURIComponent(body);
-      st.textContent = 'Ouverture de votre messagerie…';
-      window.location.href = url;
+      function clean(v) { v = (v || '').toString().trim(); return v ? v : null; }
+      var payload = {
+        nom: nom,
+        email: email,
+        tel: clean(f.get('tel')),
+        besoin: clean(f.get('besoin')),
+        ville: clean(f.get('ville')),
+        message: clean(f.get('message')),
+        source: 'site'
+      };
+      function viaMail() {
+        var body = [
+          'Nom : ' + nom,
+          'E-mail : ' + email,
+          'Téléphone : ' + (payload.tel || '-'),
+          'Besoin : ' + (payload.besoin || '-'),
+          'Ville du logement : ' + (payload.ville || '-'),
+          '',
+          payload.message || ''
+        ].join('\n');
+        window.location.href = 'mailto:contact@rsconciergerie.fr?subject=' +
+          encodeURIComponent('Demande via le site — ' + (payload.besoin || 'Contact')) +
+          '&body=' + encodeURIComponent(body);
+      }
+      if (!cfg || !cfg.url || !cfg.key) { viaMail(); return; }
+      if (submitBtn) submitBtn.disabled = true;
+      st.textContent = 'Envoi en cours…';
+      fetch(cfg.url + '/rest/v1/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': cfg.key, 'Prefer': 'return=minimal' },
+        body: JSON.stringify(payload)
+      }).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        st.textContent = 'Merci ! Votre demande a bien été envoyée. Nous revenons vers vous rapidement.';
+        form.reset();
+      }).catch(function () {
+        st.textContent = 'Envoi impossible pour le moment : ouverture de votre messagerie…';
+        viaMail();
+      }).then(function () {
+        if (submitBtn) submitBtn.disabled = false;
+      });
     });
   }
 })();

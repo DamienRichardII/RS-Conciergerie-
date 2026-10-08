@@ -157,6 +157,7 @@
         </div>
       </div>
       <form id="contactForm" novalidate>
+        <label class="hp-field" aria-hidden="true">Ne pas remplir<input name="website" tabindex="-1" autocomplete="off"></label>
         <label>Nom complet<input name="nom" required autocomplete="name" placeholder="Votre nom"></label>
         <label>Téléphone<input name="tel" type="tel" autocomplete="tel" placeholder="06 00 00 00 00"></label>
         <label class="full">E-mail<input name="email" type="email" required autocomplete="email" placeholder="vous@exemple.fr"></label>
@@ -172,7 +173,7 @@
         <label class="full">Message<textarea name="message" placeholder="Parlez-nous de votre bien…"></textarea></label>
         <button class="btn btn-primary full" type="submit">Envoyer ma demande <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         <p class="status full" id="status" role="status"></p>
-        <p class="note full">En envoyant ce formulaire, votre application e-mail s’ouvre avec votre demande pré-remplie. Voir nos <a href="mentions-legales.html#donnees" style="text-decoration:underline">informations sur vos données</a>.</p>
+        <p class="note full">Vos informations sont utilisées uniquement pour répondre à votre demande. Voir nos <a href="mentions-legales.html#donnees" style="text-decoration:underline">informations sur vos données</a>.</p>
       </form>
     </div>
   </div>
@@ -207,6 +208,7 @@
     <p class="credit">Site réalisé par DamCompany</p>
   </div>
 </footer>
+<script src="js/supabase-config.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

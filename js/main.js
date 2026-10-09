@@ -55,6 +55,18 @@
     try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
   });
 
+  /* fiches fondateurs */
+  document.querySelectorAll('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var d = document.getElementById(b.getAttribute('data-open'));
+      if (d && d.showModal) { d.showModal(); document.body.style.overflow = 'hidden'; }
+    });
+  });
+  document.querySelectorAll('dialog.fiche').forEach(function (d) {
+    d.addEventListener('click', function (e) { if (e.target === d || e.target.closest('[data-close]')) d.close(); });
+    d.addEventListener('close', function () { document.body.style.overflow = ''; });
+  });
+
   var y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 

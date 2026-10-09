@@ -87,10 +87,19 @@
 <!-- A PROPOS -->
 <section id="apropos" class="alt">
   <div class="container about-grid">
-    <figure class="photo rv" style="margin:0">
-      <img src="assets/fondateurs.jpg" alt="Randy et Salomão, fondateurs de RS Conciergerie" width="1400" height="933" loading="lazy">
-      <figcaption>Randy &amp; Salomão · Fondateurs</figcaption>
-    </figure>
+    <div class="team rv" aria-label="Les fondateurs">
+      <button class="bubble" type="button" data-open="fiche-randy" aria-haspopup="dialog">
+        <span class="bubble-photo"><img src="assets/randy.jpg" alt="Randy Lomami" width="280" height="280" loading="lazy"><i class="plus" aria-hidden="true">+</i></span>
+        <span class="bubble-name">Randy Lomami</span>
+        <span class="bubble-role">Président</span>
+      </button>
+      <button class="bubble" type="button" data-open="fiche-salomao" aria-haspopup="dialog" style="--d:.15s">
+        <span class="bubble-photo"><img src="assets/salomao.jpg" alt="Salomão Manzambi" width="280" height="280" loading="lazy"><i class="plus" aria-hidden="true">+</i></span>
+        <span class="bubble-name">Salomão Manzambi</span>
+        <span class="bubble-role">Directeur général</span>
+      </button>
+      <p class="team-hint">Touchez une photo pour découvrir leur parcours</p>
+    </div>
     <div>
       <div class="eyebrow rv">À propos</div>
       <h2 class="h2 rv">Deux fondateurs, <em class="accent">un seul objectif :</em> votre tranquillité.</h2>
@@ -179,6 +188,32 @@
   </div>
 </section>
 </main>
+
+<!-- FICHES FONDATEURS -->
+<dialog class="fiche" id="fiche-randy" aria-labelledby="fr-name">
+  <button class="fiche-close" type="button" data-close aria-label="Fermer la fiche">✕</button>
+  <div class="fiche-top">
+    <img src="assets/randy.jpg" alt="Randy Lomami" width="280" height="280">
+    <div><h3 id="fr-name">Randy Lomami</h3><p>Président · RS Conciergerie</p></div>
+  </div>
+  <h4>Formation</h4>
+  <ul class="fiche-list">
+    <li>BTS Professions immobilières</li>
+    <li>Licence Management et droit des affaires immobilières</li>
+    <li>Master Management des services immobiliers</li>
+  </ul>
+</dialog>
+<dialog class="fiche" id="fiche-salomao" aria-labelledby="fs-name">
+  <button class="fiche-close" type="button" data-close aria-label="Fermer la fiche">✕</button>
+  <div class="fiche-top">
+    <img src="assets/salomao.jpg" alt="Salomão Manzambi" width="280" height="280">
+    <div><h3 id="fs-name">Salomão Manzambi</h3><p>Directeur général · RS Conciergerie</p></div>
+  </div>
+  <h4>Formation</h4>
+  <ul class="fiche-list">
+    <li>BTS NDRC (Négociation et digitalisation de la relation client)</li>
+  </ul>
+</dialog>
 
 <footer class="footer">
   <div class="container">
